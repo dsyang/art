@@ -1,0 +1,75 @@
+<html>
+	<head><title>Drawings</title>
+		<script src="jquery-2.1.1.js"></script>
+		<style>
+#content img {
+  position: absolute;
+  width: 100%;
+  -moz-transition: opacity 3s ease-in-out;
+  opacity:0;
+  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: alpha(opacity=0);
+}
+
+#content img.opaque {
+  opacity:1;
+  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: alpha(opacity=1);
+}
+
+
+  /* Webkit for Mozila Firefox */
+#image7.zoom {
+  -moz-transform: scale(1.5, 1.5);
+  transition: all 5s ease;
+}
+
+#image8.opaque {
+  -moz-transform: scale(1.5, 1.5);
+}
+		</style>
+	</head>
+	<body>
+		<script src="http://localhost:15312/socket.io/socket.io.js"></script>
+		<script>
+			var socket = io.connect('http://localhost:15312');
+			socket.on('news', function (data) {
+			console.log(data);
+			socket.emit('my other event', { my: 'data' });
+			});
+		</script>
+		<div id="content">
+			<img src="img1.png" id="image1" class="opaque">
+			<img src="img2.png" id="image2">
+			<img src="img3.png" id="image3">
+			<img src="img4.png" id="image4">
+			<img src="img5.png" id="image5">
+			<img src="img6.png" id="image6">
+			<img src="img7.png" id="image7">
+			<img src="img8.png" id="image8">
+		</div>
+		<script type="text/javascript">
+			$(document).ready(function() {
+			  console.log("ready");
+
+			  imageNum = 1;
+
+			  interval = setInterval(function() {
+			    if (imageNum === 1) {
+			       $("#image7").removeClass("zoom");
+			    }
+			    $("#image"+imageNum).removeClass("opaque");
+			    imageNum = (imageNum % 8) +1;
+			    $("#image"+imageNum).addClass("opaque");
+		      if(imageNum === 7) {
+			      $("#image7").addClass("zoom");
+     			}
+			  }, 7000);
+
+
+
+			});
+		</script>
+
+	</body>
+</html>
