@@ -7,7 +7,7 @@ app.get("/static/:staticFilename", function (request, response) {
 });
 app.listen(8000);
 
-var io = require('socket.io').listen(15312);
+var io = require('socket.io').listen(15312, { log: false });
 io.set( 'origins', '*localhost*:*' );
 
 io.sockets.on('connection', function (socket) {

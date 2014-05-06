@@ -28,6 +28,7 @@ import cv2
 # local module
 import video
 
+DIFF_THRESHOLD = 5
 
 class App(object):
 		def __init__(self, video_src):
@@ -100,10 +101,10 @@ class App(object):
 								track_box, self.track_window = cv2.CamShift(prob, self.track_window, term_crit)
 								if old_track_box is None:
 									 old_track_box = track_box
-								if abs(int(old_track_box[0][0]) - int(track_box[0][0])) > 3 or  \
-								   abs(int(old_track_box[0][1]) - int(track_box[0][1])) > 3 or \
-									 abs(int(old_track_box[1][0]) - int(track_box[1][0])) > 3 or \
-									 abs(int(old_track_box[1][1]) - int(track_box[1][1])) > 3:
+								if abs(int(old_track_box[0][0]) - int(track_box[0][0])) > DIFF_THRESHOLD or  \
+								   abs(int(old_track_box[0][1]) - int(track_box[0][1])) > DIFF_THRESHOLD or \
+									 abs(int(old_track_box[1][0]) - int(track_box[1][0])) > DIFF_THRESHOLD or \
+									 abs(int(old_track_box[1][1]) - int(track_box[1][1])) > DIFF_THRESHOLD:
 									 print("DIFFERENT!")
 									 sys.stdout.flush()
 								if self.show_backproj:

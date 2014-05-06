@@ -6,36 +6,38 @@
   position: absolute;
   width: 100%;
   -moz-transition: opacity 3s ease-in-out;
+  -webkit-transition: opacity 3s ease-in-out;
   opacity:0;
-  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
   filter: alpha(opacity=0);
 }
 
 #content img.opaque {
   opacity:1;
-  -ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
   filter: alpha(opacity=1);
 }
 
-
-  /* Webkit for Mozila Firefox */
 #image7.zoom {
   -moz-transform: scale(1.5, 1.5);
+  -webkit-transform: scale(1.5, 1.5);
   transition: all 5s ease;
 }
 
-#image8.opaque {
+#image8 {
   -moz-transform: scale(1.5, 1.5);
+  -webkit-transform: scale(1.5, 1.5);
 }
 		</style>
 	</head>
 	<body>
 		<script src="http://localhost:15312/socket.io/socket.io.js"></script>
 		<script>
+			var MAX_DIFF_NUM = 30;
+			var diffCount = MAX_DIFF_NUM;
 			var socket = io.connect('http://localhost:15312');
 			socket.on('news', function (data) {
-			console.log(data);
-			socket.emit('my other event', { my: 'data' });
+			diffCount--;
+
+			console.log(diffCount);
 			});
 		</script>
 		<div id="content">
@@ -47,6 +49,7 @@
 			<img src="img6.png" id="image6">
 			<img src="img7.png" id="image7">
 			<img src="img8.png" id="image8">
+			<img src="img9.png" id="image9">
 		</div>
 		<script type="text/javascript">
 			$(document).ready(function() {
@@ -55,16 +58,20 @@
 			  imageNum = 1;
 
 			  interval = setInterval(function() {
+			    if (diffCount > 0 || imageNum == 9) {
+
 			    if (imageNum === 1) {
 			       $("#image7").removeClass("zoom");
 			    }
 			    $("#image"+imageNum).removeClass("opaque");
-			    imageNum = (imageNum % 8) +1;
+			    imageNum = (imageNum % 9) +1;
 			    $("#image"+imageNum).addClass("opaque");
 		      if(imageNum === 7) {
 			      $("#image7").addClass("zoom");
      			}
-			  }, 7000);
+			    }
+			    diffCount = MAX_DIFF_NUM;
+			  }, 4000);
 
 
 
